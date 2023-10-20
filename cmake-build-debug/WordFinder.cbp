@@ -83,6 +83,12 @@
 		<Unit filename="C:/Users/caiog/OneDrive/Documentos/GitHub/Postados/WordFinder/main.cpp">
 			<Option target="WordFinder"/>
 		</Unit>
+		<Unit filename="C:/Users/caiog/OneDrive/Documentos/GitHub/Postados/WordFinder/src/readfile.cpp">
+			<Option target="WordFinder"/>
+		</Unit>
+		<Unit filename="C:/Users/caiog/OneDrive/Documentos/GitHub/Postados/WordFinder/src/wordfinder.cpp">
+			<Option target="WordFinder"/>
+		</Unit>
 		<Unit filename="C:/Users/caiog/OneDrive/Documentos/GitHub/Postados/WordFinder/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>

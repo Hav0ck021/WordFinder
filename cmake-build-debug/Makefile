@@ -152,6 +152,54 @@ main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\WordFinder.dir\build.make CMakeFiles/WordFinder.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+src/readfile.obj: src/readfile.cpp.obj
+.PHONY : src/readfile.obj
+
+# target to build an object file
+src/readfile.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\WordFinder.dir\build.make CMakeFiles/WordFinder.dir/src/readfile.cpp.obj
+.PHONY : src/readfile.cpp.obj
+
+src/readfile.i: src/readfile.cpp.i
+.PHONY : src/readfile.i
+
+# target to preprocess a source file
+src/readfile.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\WordFinder.dir\build.make CMakeFiles/WordFinder.dir/src/readfile.cpp.i
+.PHONY : src/readfile.cpp.i
+
+src/readfile.s: src/readfile.cpp.s
+.PHONY : src/readfile.s
+
+# target to generate assembly for a file
+src/readfile.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\WordFinder.dir\build.make CMakeFiles/WordFinder.dir/src/readfile.cpp.s
+.PHONY : src/readfile.cpp.s
+
+src/wordfinder.obj: src/wordfinder.cpp.obj
+.PHONY : src/wordfinder.obj
+
+# target to build an object file
+src/wordfinder.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\WordFinder.dir\build.make CMakeFiles/WordFinder.dir/src/wordfinder.cpp.obj
+.PHONY : src/wordfinder.cpp.obj
+
+src/wordfinder.i: src/wordfinder.cpp.i
+.PHONY : src/wordfinder.i
+
+# target to preprocess a source file
+src/wordfinder.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\WordFinder.dir\build.make CMakeFiles/WordFinder.dir/src/wordfinder.cpp.i
+.PHONY : src/wordfinder.cpp.i
+
+src/wordfinder.s: src/wordfinder.cpp.s
+.PHONY : src/wordfinder.s
+
+# target to generate assembly for a file
+src/wordfinder.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\WordFinder.dir\build.make CMakeFiles/WordFinder.dir/src/wordfinder.cpp.s
+.PHONY : src/wordfinder.cpp.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -164,6 +212,12 @@ help:
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
+	@echo ... src/readfile.obj
+	@echo ... src/readfile.i
+	@echo ... src/readfile.s
+	@echo ... src/wordfinder.obj
+	@echo ... src/wordfinder.i
+	@echo ... src/wordfinder.s
 .PHONY : help
 
 

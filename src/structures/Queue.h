@@ -63,7 +63,7 @@ void Queue<typ>::insertQueue(Queue<typ>& list,typ d){
 template<typename typ>
 NodeQueue<typ>* Queue<typ>::getNodeByPosition(Queue<typ>& list, int position){
     if (list.size == 0 || position > list.size){
-        return;
+        return list;
     }
     int k = 0;
     NodeQueue<typ>* auxNode = list.begin;

@@ -82,19 +82,51 @@ CMakeFiles/WordFinder.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/WordFinder.dir/main.cpp.s"
 	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\caiog\OneDrive\Documentos\GitHub\Postados\WordFinder\main.cpp -o CMakeFiles\WordFinder.dir\main.cpp.s
 
+CMakeFiles/WordFinder.dir/src/readfile.cpp.obj: CMakeFiles/WordFinder.dir/flags.make
+CMakeFiles/WordFinder.dir/src/readfile.cpp.obj: C:/Users/caiog/OneDrive/Documentos/GitHub/Postados/WordFinder/src/readfile.cpp
+CMakeFiles/WordFinder.dir/src/readfile.cpp.obj: CMakeFiles/WordFinder.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\caiog\OneDrive\Documentos\GitHub\Postados\WordFinder\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/WordFinder.dir/src/readfile.cpp.obj"
+	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/WordFinder.dir/src/readfile.cpp.obj -MF CMakeFiles\WordFinder.dir\src\readfile.cpp.obj.d -o CMakeFiles\WordFinder.dir\src\readfile.cpp.obj -c C:\Users\caiog\OneDrive\Documentos\GitHub\Postados\WordFinder\src\readfile.cpp
+
+CMakeFiles/WordFinder.dir/src/readfile.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/WordFinder.dir/src/readfile.cpp.i"
+	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\caiog\OneDrive\Documentos\GitHub\Postados\WordFinder\src\readfile.cpp > CMakeFiles\WordFinder.dir\src\readfile.cpp.i
+
+CMakeFiles/WordFinder.dir/src/readfile.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/WordFinder.dir/src/readfile.cpp.s"
+	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\caiog\OneDrive\Documentos\GitHub\Postados\WordFinder\src\readfile.cpp -o CMakeFiles\WordFinder.dir\src\readfile.cpp.s
+
+CMakeFiles/WordFinder.dir/src/wordfinder.cpp.obj: CMakeFiles/WordFinder.dir/flags.make
+CMakeFiles/WordFinder.dir/src/wordfinder.cpp.obj: C:/Users/caiog/OneDrive/Documentos/GitHub/Postados/WordFinder/src/wordfinder.cpp
+CMakeFiles/WordFinder.dir/src/wordfinder.cpp.obj: CMakeFiles/WordFinder.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\caiog\OneDrive\Documentos\GitHub\Postados\WordFinder\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/WordFinder.dir/src/wordfinder.cpp.obj"
+	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/WordFinder.dir/src/wordfinder.cpp.obj -MF CMakeFiles\WordFinder.dir\src\wordfinder.cpp.obj.d -o CMakeFiles\WordFinder.dir\src\wordfinder.cpp.obj -c C:\Users\caiog\OneDrive\Documentos\GitHub\Postados\WordFinder\src\wordfinder.cpp
+
+CMakeFiles/WordFinder.dir/src/wordfinder.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/WordFinder.dir/src/wordfinder.cpp.i"
+	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\caiog\OneDrive\Documentos\GitHub\Postados\WordFinder\src\wordfinder.cpp > CMakeFiles\WordFinder.dir\src\wordfinder.cpp.i
+
+CMakeFiles/WordFinder.dir/src/wordfinder.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/WordFinder.dir/src/wordfinder.cpp.s"
+	C:\MinGW\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\caiog\OneDrive\Documentos\GitHub\Postados\WordFinder\src\wordfinder.cpp -o CMakeFiles\WordFinder.dir\src\wordfinder.cpp.s
+
 # Object files for target WordFinder
 WordFinder_OBJECTS = \
-"CMakeFiles/WordFinder.dir/main.cpp.obj"
+"CMakeFiles/WordFinder.dir/main.cpp.obj" \
+"CMakeFiles/WordFinder.dir/src/readfile.cpp.obj" \
+"CMakeFiles/WordFinder.dir/src/wordfinder.cpp.obj"
 
 # External object files for target WordFinder
 WordFinder_EXTERNAL_OBJECTS =
 
 WordFinder.exe: CMakeFiles/WordFinder.dir/main.cpp.obj
+WordFinder.exe: CMakeFiles/WordFinder.dir/src/readfile.cpp.obj
+WordFinder.exe: CMakeFiles/WordFinder.dir/src/wordfinder.cpp.obj
 WordFinder.exe: CMakeFiles/WordFinder.dir/build.make
 WordFinder.exe: CMakeFiles/WordFinder.dir/linkLibs.rsp
 WordFinder.exe: CMakeFiles/WordFinder.dir/objects1.rsp
 WordFinder.exe: CMakeFiles/WordFinder.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\caiog\OneDrive\Documentos\GitHub\Postados\WordFinder\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable WordFinder.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\caiog\OneDrive\Documentos\GitHub\Postados\WordFinder\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable WordFinder.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\WordFinder.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

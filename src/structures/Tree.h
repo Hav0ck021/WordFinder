@@ -52,5 +52,10 @@ public:
     }
 };
 
+template<typename typ>
+Tree<typ>::~Tree() {
+
+}
+
 
 #endif //WORDFINDER_ARVORE_H

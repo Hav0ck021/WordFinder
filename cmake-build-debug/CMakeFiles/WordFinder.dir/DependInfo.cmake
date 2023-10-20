@@ -9,6 +9,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "C:/Users/caiog/OneDrive/Documentos/GitHub/Postados/WordFinder/main.cpp" "CMakeFiles/WordFinder.dir/main.cpp.obj" "gcc" "CMakeFiles/WordFinder.dir/main.cpp.obj.d"
+  "C:/Users/caiog/OneDrive/Documentos/GitHub/Postados/WordFinder/src/readfile.cpp" "CMakeFiles/WordFinder.dir/src/readfile.cpp.obj" "gcc" "CMakeFiles/WordFinder.dir/src/readfile.cpp.obj.d"
+  "C:/Users/caiog/OneDrive/Documentos/GitHub/Postados/WordFinder/src/wordfinder.cpp" "CMakeFiles/WordFinder.dir/src/wordfinder.cpp.obj" "gcc" "CMakeFiles/WordFinder.dir/src/wordfinder.cpp.obj.d"
   )
 
 # Targets to which this target links which contain Fortran sources.
