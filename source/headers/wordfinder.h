@@ -1,0 +1,8 @@
+//
+// Created by caiog on 20/10/2023.
+//
+
+#ifndef WORDFINDER_WORDFINDER_H
+#define WORDFINDER_WORDFINDER_H
+
+#endif //WORDFINDER_WORDFINDER_H
