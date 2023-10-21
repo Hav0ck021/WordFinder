@@ -4,23 +4,36 @@
 
 #ifndef WORDFINDER_MAIN_H
 #define WORDFINDER_MAIN_H
+
 #define BUFFER 1024
-#incluide <iostream>
+#include <iostream>
+
+using namespace std;
 
 int logoExhibition(){
-    FILE *logo = fopen("/resources/logo.txt","r");
-    if (logo == NULL){
-        perror("Erro ao apresentar a logo!");
+    FILE *logo = fopen("resources/logo.txt","r");
+    if (logo == nullptr){
+        perror("Erro ao apresentar a logo! ");
         return -1;
     }
     char line[BUFFER];
-
-    while(fgets(line, sizeof(line), logo) != NULL){
+    while(fgets(line, sizeof(line), logo) != nullptr){
         for(int i = 0; i < sizeof(line); i++){
-            cout << line[i] << endl;
+            cout << line[i];
         }
+        cout << "\n";
     }
     fclose(logo);
+    return 0;
+}
+
+int optionsWordFinder(int *op){
+    switch(*op) {
+        case 1:
+            break;
+        case 'e' | 'E':
+            break;
+    }
     return 0;
 }
 
