@@ -8,6 +8,7 @@ all:
 	gcc main.o main.cpp -o main
 	gcc readfile.o readfile.cpp -o readfile
 	gcc wordfinder.o wordfinder.cpp -o wordfinder
+	gcc fileprocessor.o fileprocessor.cpp -o fileprocessor
 
 readfile.o: file.h
 	gcc -c readfile.cpp

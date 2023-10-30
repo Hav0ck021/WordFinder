@@ -16,13 +16,14 @@ int logoExhibition(){
         perror("Erro ao apresentar a logo! ");
         return -1;
     }
+
     char line[BUFFER];
+
     while(fgets(line, sizeof(line), logo) != nullptr){
-        for(int i = 0; i < sizeof(line); i++){
-            cout << line[i];
-        }
-        cout << "\n";
+        cout << line;
     }
+    cout << "\n";
+
     fclose(logo);
     return 0;
 }

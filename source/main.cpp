@@ -4,9 +4,9 @@
 int main() {
     logoExhibition();
 
-    int option;
+    /**int option;
     cin >> option;
-    optionsWordFinder(&option);
+    optionsWordFinder(&option);**/
 
     return 0;
 }
