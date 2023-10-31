@@ -2,6 +2,7 @@
 #define WORDFINDER_ARVORE_H
 #include <iostream>
 #include <cstring>
+#include "NodeWord.h"
 #define BUFFER 1024
 
 using namespace std;
@@ -31,7 +32,7 @@ public:
     TreeNode<typ>* createTree(typ d);
     int getHeight(TreeNode<typ>* leaf);
     int getBalance(TreeNode<typ>* leaf);
-    void printTree(TreeNode<typ>* root);
+    void printTree(TreeNode<typ>* node);
     TreeNode<typ>* getRoot(typ d);
     TreeNode<typ>* insertLeaf(typ d);
     TreeNode<typ>* searchTreeContent(typ d);
@@ -75,9 +76,7 @@ int TreeAVL<typ>::getBalance(TreeNode<typ>* leaf){
 template<typename typ>
 void TreeAVL<typ>::printTree(TreeNode<typ>* node){
     if (node != nullptr) {
-        cout << node->data << endl;
-        printTree(node->left);
-        printTree(node->right);
+        printDirectoryTree(node);
     }
 }
 

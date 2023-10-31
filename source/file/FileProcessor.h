@@ -8,71 +8,69 @@
 #include <algorithm>
 #include "../structures/LinkedList.h"
 #include "../structures/NodeWord.h"
-using namespace std;
 
 template<typename typ>
-class FileProcessor : private LinkedList<typ> {
-private:
-    char* fileName;
+LinkedList<Word<typ>> wordList;
+
+template<typename typ>
+Word<typ> word;
+
+template<typename typ>
+class FileProcessor {
 public:
-    FileProcessor(char* fileName) : fileName(fileName) {}
+    FileProcessor(const string& fileName) : fileName_(fileName) {}
+
     void processFile();
 
+public:
+    string fileName_;
 };
 
 template<typename typ>
 void FileProcessor<typ>::processFile(){
-    {
-        ifstream file(fileName);
-        LinkedList<typ> words;
+    ifstream file("arquivo1.txt");
 
-        if (!file) {
-            cout << "Error opening the file: " << fileName << endl;
-            return;
-        }
+    if (!file) {
+        cout << "Error opening the file: " << fileName_ << endl;
+        return;
+    }
 
-        regex pattern("[^a-zA-Z0-9]+"); // Expressão regular para remover caracteres não alfanuméricos
+    regex pattern("[^a-zA-Z0-9]+"); // Expressão regular para remover caracteres não alfanuméricos
 
-        string line;
-        int lineNumber = 1;
-        int sequentialSearchResult = -1;
-        int count = 1;
+    string line;
+    int lineNumber = 1;
+    int count = 1;
 
-        while (getline(file, line)) {
-            istringstream iss(line);
-            string wordForm;
+    while (getline(file, line)) {
+        istringstream iss(line);
+        string wordForm;
 
-            while (iss >> wordForm) {
-                wordForm = regex_replace(wordForm, pattern, "");
+        while (iss >> wordForm) {
+            wordForm = regex_replace(wordForm, pattern, "");
 
-                if (wordForm.size() >= 3) {
-                    words.bubbleSort(); // Correção necessária na implementação da ordenação
+            if (wordForm.size() >= 3) {
+                wordList<typ>.bubbleSort(); // Correção necessária na implementação da ordenação
 
-                    // Transformar para letras maiúsculas
-                    transform(wordForm.begin(), wordForm.end(), wordForm.begin(), ::toupper);
+                // Transformar para letras maiúsculas
+                transform(wordForm.begin(), wordForm.end(), wordForm.begin(), ::toupper);
 
-                    // Realizar uma pesquisa sequencial na lista
-                    sequentialSearchResult = sequential_search(words, wordForm);
+                // Realizar uma pesquisa sequencial na lista
+                wordList<typ>.sequentialSearch(wordForm);
 
-                    if (sequentialSearchResult == -1) {
-                        // A palavra não existe na lista, então adicione-a
-                        Word newWord;
-                        newWord.copyWords(wordForm);
-                        newWord.ct1 = count;
-                        newWord.ct2 = 0; // Preencha o valor apropriado, se necessário
-                        newWord.line = lineNumber;
-                        newWord.insertNode(newWord);
-                    } else {
-                        // A palavra já existe na lista, atualize o contador
-                        words.ct1 += count;
-                    }
+                if (wordList<typ>.sequentialSearch(wordForm) == nullptr) {
+                    // A palavra não existe na lista, então adicione-a
+                    Word<typ> newWord(wordForm.c_str(), count, 0, lineNumber);;
+                    wordList<typ>.insertNode(newWord);
+                } else {
+                    // A palavra já existe na lista, atualize o contador
+                    word<typ>.increaseCountWordList(count);
                 }
             }
-
-            lineNumber++;
         }
 
-        file.close();
+        lineNumber++;
     }
+
+    file.close();
 }
 #endif //WORDFINDER_FILEPROCESSOR_H
