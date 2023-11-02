@@ -1,58 +1,36 @@
 #ifndef WORDFINDER_Word_H
 #define WORDFINDER_Word_H
 #include "LinkedList.h"
+#include <string>
 #include <cstring>
 
 using namespace std;
 
 template <typename typ>
-class Word : public LinkedList<typ> {
+class Word {
 private:
-    char *word;
-    int ct1 = 0;
-    int ct2 = 0;
-    int countLine = 0;
-    char* lines;
+    LinkedList<typ> wordList;
+
+    int countLine;
+    int lines[128];
 public:
-    Word() : word(nullptr) {} // Construtor padrão
-
-    Word(const char* word, int ct1, int ct2, int countLine) : ct1(ct1), ct2(ct2), countLine(countLine) {
-        // Aloque espaço para a palavra
-        this->word = new char[strlen(word) + 1];
-        strcpy(this->word, word);
+    Word() {}
+    Word(const string& wordStr) {
+        wordList.insertNode(wordStr);
+        countLine = 0;
     }
 
-    // Construtor que aceita uma string e converte para char*
-    Word(const string& wordStr) : word(nullptr) {
-        // Aloque espaço para a palavra
-        word = new char[wordStr.length() + 1]; // +1 para o caractere nulo
-        strcpy(word, wordStr.c_str()); // Copie a string para o char*
-    }
-
-    // Destrutor para liberar a memória alocada
-    ~Word() { delete[] word; }
-
-    // Métodos ou operadores de conversão
-    operator char*() const { return word; }
-
-    char* dynamicAllocateLines();
-    void printWords();
+    void printAllWords();
     bool compareWords(const string& word1, const string& word2);
-    char* copyWords(char *word2);
     void printDirectoryTree(Node<typ>* root, const string& prefix = "");
+    void printTable(typ d);
     void showAllLines();
     void increaseCountWordList(int num);
 };
 
 template<typename typ>
 void Word<typ>::increaseCountWordList(int num) {
-    ct1 += num;
-}
-
-template <typename typ>
-char* Word<typ>::dynamicAllocateLines(){
-    lines = (char *)malloc(countLine* sizeof(char));
-    return lines;
+    countLine += num;
 }
 
 template <typename typ>
@@ -61,17 +39,16 @@ void Word<typ>::showAllLines(){
     for(int i = 0; lines[i] != '\0'; i++){
         cout << lines[i] << ", ";
     }
+    cout << " ]" << endl;
 }
 
-// Função responsável pela formatação da impressão das palavras
 template <typename typ>
-void Word<typ>::printWords() {
-    cout << "*-----------------------------------------------------*" << endl;
-    cout << "| Word: " << word << endl;
-    cout << "| Count total: " << ct1 + ct2 << endl;
-    cout << "| Count 1: " << ct1 << " Count 2: " << ct2 << endl;  // Corrigidos os nomes dos membros
+void Word<typ>::printTable(typ d){
+    cout << "*-----------------------*" << endl;
+    cout << "| Word: " << wordList.getNodeByID(d) << endl;
+    cout << "| Count total: " << countLine << endl;
     cout << "| Line: ", showAllLines();
-    cout << "*-----------------------------------------------------*" << endl;
+    cout << "*----------------------*" << endl;
 }
 
 template <typename typ>
@@ -80,7 +57,7 @@ void Word<typ>::printDirectoryTree(Node<typ>* root, const string& prefix) {
         return;
     }
 
-    std::cout << prefix << "└── " << root->key << std::endl;
+    std::cout << prefix << "└── " << printTable(root->data) << std::endl;
 
     std::string newPrefix = prefix + "    ";
 
@@ -88,13 +65,13 @@ void Word<typ>::printDirectoryTree(Node<typ>* root, const string& prefix) {
     printDirectoryTree(root->right, newPrefix + "│   ");
 }
 
-template <typename typ>
 // Função responsável por comparar 2 strings
-bool Word<typ>::compareWords(const string& word1, const string& word2) {
-    return word1 == word2;
-}
 template <typename typ>
-char* Word<typ>::copyWords(char* word2) {
-    return strcpy(word, word2);
+bool Word<typ>::compareWords(const string& word1, const string& word2) {
+    if (word1 == word2) {
+        return true;
+    } else {
+        return word1.size() > word2.size();
+    }
 }
 #endif //WORDFINDER_Word_H
