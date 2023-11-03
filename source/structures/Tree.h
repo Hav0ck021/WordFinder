@@ -2,26 +2,23 @@
 #define WORDFINDER_ARVORE_H
 #include <iostream>
 #include <cstring>
-#include "NodeWord.h"
-#define BUFFER 1024
 
 using namespace std;
 
 template <typename typ>
 struct TreeNode{
-    typ data = NULL;
+    typ data;
     int height;
-    int countLeaf = 0;
-    int balancer = 0; // Must be -1, 0 or 1
-    TreeNode<typ>* sourceTree = nullptr;
-    TreeNode<typ>* left = nullptr;
-    TreeNode<typ>* right = nullptr;
+    int countLeaf;
+    TreeNode<typ>* left;
+    TreeNode<typ>* right;
 };
 
 template <typename typ>
 class TreeAVL {
 private:
-    TreeNode<typ>* root = nullptr;
+    TreeNode<typ>* root;
+    int balancer = 0; // Must be -1, 0 or 1
     void printTreeDCE(TreeNode<typ>* node);
     void printTreeECD(TreeNode<typ>* node);
     void printTreeCDE(TreeNode<typ>* node);
@@ -29,66 +26,116 @@ private:
 public:
     TreeAVL();
     ~TreeAVL();
-    TreeNode<typ>* createTree(typ d);
+
     int getHeight(TreeNode<typ>* leaf);
     int getBalance(TreeNode<typ>* leaf);
-    void printTree(TreeNode<typ>* node);
-    TreeNode<typ>* getRoot(typ d);
-    TreeNode<typ>* insertLeaf(typ d);
-    TreeNode<typ>* searchTreeContent(typ d);
-    /** char* verifyLengthWords(char* a, char* b); **/
     int max(int a, int b);
-    TreeNode<typ>* leftRotation(TreeNode<typ>* x);
-    TreeNode<typ>* rightRotation(TreeNode<typ>* y);
+
     void printTreeDCE();
     void printTreeECD();
     void printTreeCDE();
+    void printTree();
+    void printTree(TreeNode<typ>* node);
+    void printDirectoryTree(TreeNode<typ>* root, bool isLeft = true, const string& prefix = "");
+    void insertLeaf(typ data);
+    void destroyTree(TreeNode<typ>* node);
+
+    TreeNode<typ>* getRoot(typ d);
+    TreeNode<typ>* createNode(typ d);
+    TreeNode<typ>* insertLeaf(TreeNode<typ> *leaf, typ d);
+    TreeNode<typ>* leftRotation(TreeNode<typ>* x);
+    TreeNode<typ>* rightRotation(TreeNode<typ>* y);
 };
 
 template<typename typ>
 TreeAVL<typ>::TreeAVL(){
-    cout << "Tree has been created!" << endl;
+    root = nullptr;
 }
 
 template<typename typ>
 TreeAVL<typ>::~TreeAVL() {
-    cout << "Tree has been deleted!" << endl;
+    destroyTree(root);
+}
+template<typename typ>
+void TreeAVL<typ>::destroyTree(TreeNode<typ>* node) {
+    if (node == nullptr)
+        return;
+    destroyTree(node->left);
+    destroyTree(node->right);
+    delete node;
 }
 
 template<typename typ>
-TreeNode<typ>* TreeAVL<typ>::createTree(typ d){
-    TreeNode<typ>* aux = new TreeNode<typ>();
-    aux->data = d;
-    aux->height++;
-    return aux;
+TreeNode<typ> *TreeAVL<typ>::getRoot(typ d) {
+    return nullptr;
+}
+
+template<typename typ>
+TreeNode<typ>* TreeAVL<typ>::createNode(typ d){
+    TreeNode<typ>* auxNode = new TreeNode<typ>();
+
+    auxNode->data = d;
+    auxNode->left = nullptr;
+    auxNode->right = nullptr;
+    auxNode->height = 1;
+    auxNode->countLeaf = 1;
+
+    return auxNode;
+}
+
+template <typename typ>
+void TreeAVL<typ>::insertLeaf(typ data) {
+    root = insertLeaf(root, data);
+}
+
+template<typename typ>
+TreeNode<typ>* TreeAVL<typ>::insertLeaf(TreeNode<typ> *leaf, typ d){
+    if(leaf == nullptr){
+        return(createNode(d));
+    }
+
+    // Insertion process
+    if (d < leaf->data)
+        leaf->left = insertLeaf(leaf->left, d);
+    else if (d > leaf->data)
+        leaf->right = insertLeaf(leaf->right, d);
+    else
+        return leaf;
+
+    // Balancer process
+    leaf->height = 1 +
+            max(getHeight(leaf->left), getHeight(leaf->right));
+    int balance = getBalance(leaf);
+
+    // Left, Left Case
+    if (balance > 1 && d < leaf->left->data)
+        return rightRotation(leaf);
+    // Right, Right Case
+    if (balance < -1 && d > leaf->right->data)
+        return leftRotation(leaf);
+    // Left, Right Case
+    if (balance > 1 && d > leaf->left->data){
+        leaf->left = leftRotation(leaf->left);
+        return rightRotation(leaf);
+    }
+    // Right, Left Case
+    if (balance < -1 && d < leaf->right->data){
+        leaf->right = rightRotation(leaf->right);
+        return leftRotation(leaf);
+    }
+    // Return leaf without changes
+    return leaf;
 }
 
 template<typename  typ>
 int TreeAVL<typ>::getHeight(TreeNode<typ>* leaf){
-    return (leaf == nullptr) ? 0 : leaf->heigth;
+    return (leaf == nullptr) ? 0 : leaf->height;
 }
 
 template<typename  typ>
 int TreeAVL<typ>::getBalance(TreeNode<typ>* leaf){
-    return (leaf == nullptr) ? 0 : (heigth(leaf->left) - heigth(leaf->right));
+    return (leaf == nullptr) ? 0 : (getHeight(leaf->left) - getHeight(leaf->right));
 }
-
-template<typename typ>
-void TreeAVL<typ>::printTree(TreeNode<typ>* node){
-    if (node != nullptr) {
-        printDirectoryTree(node);
-    }
-}
-
-template<typename typ>
-TreeNode<typ>* TreeAVL<typ>::insertLeaf(typ d){
-
-}
-
-/** template<typename typ>
-char* Tree<typ>::verifyLengthWords(char* a, char* b){
-    return (strlen(a) > strlen(b)) ? a : b;
-} **/
 
 template<typename typ>
 int TreeAVL<typ>::max(int a, int b)
@@ -115,18 +162,13 @@ TreeNode<typ>* TreeAVL<typ>::rightRotation(TreeNode<typ>* y){
     TreeNode<typ> *x = y->left;
     TreeNode<typ> *t2 = x->right;
 
-    x->right = x;
+    x->right = y;
     y->left = t2;
 
     y->height = max(getHeight(y->left), getHeight(y->right)) + 1;
     x->height = max(getHeight(x->left), getHeight(x->right)) + 1;
 
     return x;
-}
-
-template<typename typ>
-TreeNode<typ>* TreeAVL<typ>::searchTreeContent(typ d){
-
 }
 
 template<typename typ>
@@ -182,4 +224,31 @@ void TreeAVL<typ>::printTreeCDE(TreeNode<typ>* node){
         printTreeDCE(node->left);
     }
 }
+
+template<typename typ>
+void TreeAVL<typ>::printTree(){
+    printDirectoryTree(root,true,"");
+}
+
+template<typename typ>
+void TreeAVL<typ>::printTree(TreeNode<typ>* node){
+    if (node != nullptr) {
+        printDirectoryTree(node,true,"");
+    }
+}
+
+template<typename typ>
+void TreeAVL<typ>::printDirectoryTree(TreeNode<typ>* root, bool isLeft, const string& prefix) {
+    if (root != nullptr) {
+        cout << prefix;
+        cout << (isLeft ? "├── " : "└── ");
+        cout << root->data << endl;
+
+        string nextPrefix = prefix + (isLeft ? "│   " : "    ");
+
+        printDirectoryTree(root->left, true, nextPrefix);
+        printDirectoryTree(root->right, false, nextPrefix);
+    }
+}
+
 #endif //WORDFINDER_ARVORE_H

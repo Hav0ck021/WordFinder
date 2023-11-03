@@ -14,6 +14,7 @@
      \   \ ;                           \   \  /   |   | ,'   |  ,   /  '---'         \   \  /    \   \  /
       '---"                             `----'    `----'      ---`-'                  `----'      `----'
 
-      The WordFinder is a word search tool designed to analyze and process text files (.txt files). Its primary
-      function is to count the total number of words in a file, identify how many times each word repeats, and
-      determine on which specific lines these words appear
+
+        The WordFinder is a word search tool designed to analyze and process text files (.txt files). Its primary
+        function is to count the total number of words in a file, identify how many times each word repeats, and
+        determine on which specific lines these words appear

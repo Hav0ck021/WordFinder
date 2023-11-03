@@ -1,3 +1,0 @@
-C:/Users/caiog/OneDrive/Documentos/GitHub/Postados/WordFinder/cmake-build-debug/CMakeFiles/WordFinder.dir
-C:/Users/caiog/OneDrive/Documentos/GitHub/Postados/WordFinder/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/caiog/OneDrive/Documentos/GitHub/Postados/WordFinder/cmake-build-debug/CMakeFiles/rebuild_cache.dir

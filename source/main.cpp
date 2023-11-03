@@ -3,10 +3,7 @@
 
 int main() {
     logoExhibition();
-
-    /**int option;
-    cin >> option;
-    optionsWordFinder(&option);**/
-
+    char option = showOptions();
+    optionsWordFinder(&option);
     return 0;
 }

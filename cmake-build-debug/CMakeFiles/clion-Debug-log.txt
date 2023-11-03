@@ -1,1 +1,0 @@
-CMakeLists.txt not found in C:\Users\caiog\OneDrive\Documentos\GitHub\Postados\WordFinder Select CMakeLists.txt

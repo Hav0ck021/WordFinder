@@ -18,142 +18,134 @@ private:
     int size;
     Node<typ>* begin;
     Node<typ>* end;
-    Node<typ>* partition(Node<typ>* low, Node<typ>* high);
-    void swapData(Node<typ>* a, Node<typ>* b);
+    Node<typ>* getNode(int position);
 public:
     void insertNode(typ d);
-    void removeNode(typ id);
-    Node<typ>* getNodeByPosition(int position);
-    int getSize();
-
-    void quickSort();
-    void quickSort(Node<typ>* low, Node<typ>* high);
+    void removeNode(int position);
     void clearMemory();
+    void printList();
+    void printNode(Node<typ>* node);
+    int getSize();
     typ binarySearch(typ goal);
     Node<typ> *sequentialSearch(typ goal);
-    void printList();
+    void swapData(Node<typ>* node1, Node<typ>* node2);
+    void quickSort();
+    void quickSort(Node<typ>* left, Node<typ>* right);
+    Node<typ>* partition(Node<typ>* left, Node<typ>* right);
 };
 
 template <typename typ>
-void LinkedList<typ>::swapData(Node<typ>* a, Node<typ>* b) {
-    typ temp = a->data;
-    a->data = b->data;
-    b->data = temp;
-}
-
-template <typename typ>
-Node<typ>* LinkedList<typ>::partition(Node<typ>* low, Node<typ>* high) {
-    typ pivot = high->data;
-    Node<typ>* i = low->prev;
-
-    for (Node<typ>* j = low; j != high; j = j->next) {
-        if (j->data < pivot) {
-            i = (i == nullptr) ? low : i->next;
-            swapData(i, j);
-        }
+void LinkedList<typ>::swapData(Node<typ>* node1, Node<typ>* node2) {
+    if (node1 != nullptr && node2 != nullptr) {
+        typ temp = node1->data;
+        node1->data = node2->data;
+        node2->data = temp;
     }
-    i = (i == nullptr) ? low : i->next;
-    swapData(i, high);
-    return i;
 }
 
 template <typename typ>
 void LinkedList<typ>::quickSort() {
-    Node<typ>* low = begin;
-    Node<typ>* high = end;
-    quickSort(low, high);
+    Node<typ>* left = begin;
+    Node<typ>* right = end;
+    quickSort(left, right);
 }
 
 template <typename typ>
-void LinkedList<typ>::quickSort(Node<typ>* low, Node<typ>* high) {
-    if (high != nullptr && low != high && low != high->next) {
-        Node<typ>* pivot = partition(low, high);
-        quickSort(low, pivot->prev);
-        quickSort(pivot->next, high);
+void LinkedList<typ>::quickSort(Node<typ>* left, Node<typ>* right) {
+    if (left != nullptr && right != nullptr && left != right && left->prev != right) {
+        Node<typ>* pivot = partition(left, right);
+        quickSort(left, pivot->prev);
+        quickSort(pivot->next, right);
     }
+}
+
+template <typename typ>
+Node<typ>* LinkedList<typ>::partition(Node<typ>* left, Node<typ>* right) {
+    typ pivot = right->data;
+    Node<typ>* i = left->prev;
+
+    for (Node<typ>* j = left; j != right; j = j->next) {
+        if (j->data < pivot) {
+            i = (i == nullptr) ? left : i->next;
+            swapData(i, j);
+        }
+    }
+    i = (i == nullptr) ? left : i->next;
+    swapData(i, right);
+    return i;
 }
 
 template<typename typ>
 void LinkedList<typ>::insertNode(typ d){
-    Node<typ>* auxNode = new Node<typ>();
+    Node<typ> *newNode;
+    newNode = new Node<typ>();
 
-    auxNode->data = d;
+    newNode->data = d;
 
     if (size == 0) {
-        begin = end = auxNode;
+        begin = end = newNode;
     } else {
-        auxNode->prev = begin;
-        end->next = auxNode;
-        end = auxNode;
+        newNode->prev = end;
+        end->next = newNode;
+        end = newNode;
     }
     size++;
 }
 
 template<typename typ>
-void LinkedList<typ>::removeNode(typ id){
-    Node<typ>* position = getNodeByID(id);
-
-    if (position != nullptr) {
-        if (position->prev != nullptr) {
-            position->prev->next = position->next;
-        } else {
-            begin = position->next;
-        }
-
-        if (position->next != nullptr) {
-            position->next->prev = position->prev;
-        } else {
-            end = position->prev;
-        }
-        delete position;
-        cout << "deleted!" << endl;
-    }
-}
-
-/** template<typename typ>
-Node<typ>* LinkedList<typ>::getNodeByID(typ id){
-   if (size == 0){
-       return nullptr;
-   }
-   Node<typ>* auxNode = begin;
-   while(auxNode != nullptr) {
-      if(auxNode->data == id) {
-           return auxNode;
-        }
-       auxNode = auxNode->next;
-   }
-} **/
-
-template<typename typ>
-Node<typ>* LinkedList<typ>::getNodeByPosition(int position){
-    if (size == 0 || position > size){
+Node<typ>* LinkedList<typ>::getNode(int position){
+    if (position < 0 || position > getSize() - 1){
         return nullptr;
     }
 
-    int k = size / 2;
-    Node<typ>* auxNode = begin;
-
-    if (position < k){
-        for(int i = 0; i < position; i++){
-            auxNode = auxNode->next;
+    Node<typ>* auxNode;
+    int k = getSize() / 2;
+    if (position > k ){
+        auxNode = end;
+        for(int i = getSize() - 1; i > position; i--){
+            auxNode = auxNode->prev;
         }
     } else {
-        auxNode = end;
-        for(int i = size - 1; i > position; i--){
-            auxNode = auxNode->prev;
+        auxNode = begin;
+        if (position < k) {
+            for (int i = 0; i < position; i++) {
+                auxNode = auxNode->next;
+            }
         }
     }
     return auxNode;
 }
 
 template<typename typ>
+void LinkedList<typ>::removeNode(int position){
+    Node<typ>* auxNode = getNode(position);
+
+    if (auxNode != nullptr) {
+        if (auxNode->next != nullptr) {
+            auxNode->next->prev = auxNode->prev;
+        }
+        if (auxNode->prev != nullptr) {
+            auxNode->prev->next = auxNode->next;
+        }
+        if (position == 0) {
+            begin = auxNode->next;
+        }
+        if (position == size - 1) {
+            end = auxNode->prev;
+        }
+
+        delete auxNode;
+        size--;
+    }
+}
+
+template<typename typ>
 void LinkedList<typ>::clearMemory() {
-    while (begin != nullptr) {
-        removeNode(begin->data);
-        clearMemory();
+    while (begin != nullptr && getSize() != 0) {
+        removeNode(0);
     }
     end = nullptr;
-    size = 0;
+    cout << "memory has been cleared!" << endl;
 }
 
 template<typename typ>
@@ -162,31 +154,39 @@ typ LinkedList<typ>::binarySearch(typ goal) {
     Node<typ>* right = end;
 
     Node<typ>* mid = left;
+    int midPosition = 0;
 
-    for (int i = 0; i < size / 2; i++) {
+    while (mid != right) {
+        mid = mid->next;
+        midPosition++;
+    }
+
+    mid = left;
+    for (int i = 0; i < midPosition / 2; i++) {
         mid = mid->next;
     }
 
-    while (left != nullptr && left != right) {
-        if (mid->data == goal) {
-            cout << "The program has found the data! It is -> " << mid->data << endl;
-            return mid->data;
-        } else if (mid->data != goal) {
-            left = mid->next;
-        } else {
-            right = mid;
-        }
+    if (mid->data == goal) {
+        cout << "The program has found the data! It is -> " << mid->data << endl;
+        return mid->data;
+    } else if (mid->data < goal) {
+        left = mid->next;
+    } else {
+        right = mid;
     }
 
-    cout << "Not found." << endl;
-    return nullptr;
+    throw std::runtime_error("Element not found in the list");
+}
+template<typename typ>
+void LinkedList<typ>::printNode(Node<typ>* node){
+    cout << "dado -> " << node->data << endl;
 }
 
 template<typename typ>
 void LinkedList<typ>::printList(){
     Node<typ> *auxNode = begin;
     while(auxNode != nullptr){
-        cout << "dado -> " << auxNode->data << endl;
+        printNode(auxNode);
         auxNode = auxNode->next;
     }
 }
@@ -195,6 +195,7 @@ template<typename typ>
 Node<typ> *LinkedList<typ>::sequentialSearch(typ goal) {
     for(Node<typ>* auxNode = begin; auxNode != nullptr; auxNode = auxNode->next){
         if (auxNode->data == goal) {
+            cout << "The program has found the data! It is -> " << auxNode->data << endl;
             return auxNode;
         }
     }
