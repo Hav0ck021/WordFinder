@@ -20,18 +20,24 @@ private:
     Node<typ>* end;
     Node<typ>* getNode(int position);
 public:
+    int getSize();
+    typ binarySearch(typ goal);
+    typ getData(int position);
+
+    Node<typ> *getBegin();
+    Node<typ> *sequentialSearch(typ goal);
+    Node<typ>* partition(Node<typ>* left, Node<typ>* right);
+
     void insertNode(typ d);
     void removeNode(int position);
     void clearMemory();
+    void printFunction(typ d);
     void printList();
-    void printNode(Node<typ>* node);
-    int getSize();
-    typ binarySearch(typ goal);
-    Node<typ> *sequentialSearch(typ goal);
+    void printList(typ d);
+    void printList(void (*printFunction)(typ d));
     void swapData(Node<typ>* node1, Node<typ>* node2);
     void quickSort();
     void quickSort(Node<typ>* left, Node<typ>* right);
-    Node<typ>* partition(Node<typ>* left, Node<typ>* right);
 };
 
 template <typename typ>
@@ -117,6 +123,16 @@ Node<typ>* LinkedList<typ>::getNode(int position){
 }
 
 template<typename typ>
+typ LinkedList<typ>::getData(int position){
+    return getNode(position)->data;
+}
+
+template<typename typ>
+Node<typ>* LinkedList<typ>::getBegin(){
+    return begin;
+}
+
+template<typename typ>
 void LinkedList<typ>::removeNode(int position){
     Node<typ>* auxNode = getNode(position);
 
@@ -177,16 +193,31 @@ typ LinkedList<typ>::binarySearch(typ goal) {
 
     throw std::runtime_error("Element not found in the list");
 }
+
 template<typename typ>
-void LinkedList<typ>::printNode(Node<typ>* node){
-    cout << "dado -> " << node->data << endl;
+void LinkedList<typ>::printFunction(typ d){
+    cout << d << ", ";
 }
 
 template<typename typ>
 void LinkedList<typ>::printList(){
+    Node<typ>* currentNode = getBegin();
+    while (currentNode != nullptr) {
+        cout << currentNode->data << ", ";
+        currentNode = currentNode->next;
+    }
+}
+
+template<typename typ>
+void LinkedList<typ>::printList(typ d){
+    printList(printFunction(d));
+}
+
+template<typename typ>
+void LinkedList<typ>::printList(void (*printFunction)(typ d)){
     Node<typ> *auxNode = begin;
     while(auxNode != nullptr){
-        printNode(auxNode);
+        printFunction(auxNode->data);
         auxNode = auxNode->next;
     }
 }

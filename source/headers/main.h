@@ -1,7 +1,3 @@
-//
-// Created by caiog on 20/10/2023.
-//
-
 #ifndef WORDFINDER_MAIN_H
 #define WORDFINDER_MAIN_H
 
@@ -38,10 +34,10 @@ char showOptions(){
     return option;
 }
 
-int optionsWordFinder(const char *op){
+int optionsWordFinder(TreeAVL<string> &tree, const char *op){
     switch(*op) {
         case '1':
-            chooseFile();
+            chooseFile(tree);
             break;
         case 'e':
         case 'E':

@@ -2,6 +2,8 @@
 #define WORDFINDER_ARVORE_H
 #include <iostream>
 #include <cstring>
+#include "../structures/LinkedList.h"
+#include "../file_components.h"
 
 using namespace std;
 
@@ -9,9 +11,11 @@ template <typename typ>
 struct TreeNode{
     typ data;
     int height;
-    int countLeaf;
+    int countLeaf = 1;
     TreeNode<typ>* left;
     TreeNode<typ>* right;
+    LinkedList<files> *files = nullptr;
+
 };
 
 template <typename typ>
@@ -22,6 +26,7 @@ private:
     void printTreeDCE(TreeNode<typ>* node);
     void printTreeECD(TreeNode<typ>* node);
     void printTreeCDE(TreeNode<typ>* node);
+    TreeNode<typ>* getNode(TreeNode<typ>* node, typ d);
 
 public:
     TreeAVL();
@@ -40,7 +45,7 @@ public:
     void insertLeaf(typ data);
     void destroyTree(TreeNode<typ>* node);
 
-    TreeNode<typ>* getRoot(typ d);
+    TreeNode<typ>* getNode(typ d);
     TreeNode<typ>* createNode(typ d);
     TreeNode<typ>* insertLeaf(TreeNode<typ> *leaf, typ d);
     TreeNode<typ>* leftRotation(TreeNode<typ>* x);
@@ -56,6 +61,7 @@ template<typename typ>
 TreeAVL<typ>::~TreeAVL() {
     destroyTree(root);
 }
+
 template<typename typ>
 void TreeAVL<typ>::destroyTree(TreeNode<typ>* node) {
     if (node == nullptr)
@@ -65,9 +71,24 @@ void TreeAVL<typ>::destroyTree(TreeNode<typ>* node) {
     delete node;
 }
 
-template<typename typ>
-TreeNode<typ> *TreeAVL<typ>::getRoot(typ d) {
-    return nullptr;
+template <typename typ>
+TreeNode<typ>* TreeAVL<typ>::getNode(typ d) {
+    return getNode(root, d);
+}
+
+template <typename typ>
+TreeNode<typ>* TreeAVL<typ>::getNode(TreeNode<typ>* node, typ d) {
+    if (node == nullptr) {
+        return nullptr;
+    }
+
+    if (d == node->data) {
+        return node;
+    } else if (d < node->data) {
+        return getNode(node->left, d);
+    } else {
+        return getNode(node->right, d);
+    }
 }
 
 template<typename typ>
@@ -99,8 +120,10 @@ TreeNode<typ>* TreeAVL<typ>::insertLeaf(TreeNode<typ> *leaf, typ d){
         leaf->left = insertLeaf(leaf->left, d);
     else if (d > leaf->data)
         leaf->right = insertLeaf(leaf->right, d);
-    else
+    else {
+        leaf->countLeaf++;
         return leaf;
+    }
 
     // Balancer process
     leaf->height = 1 +
@@ -241,10 +264,10 @@ template<typename typ>
 void TreeAVL<typ>::printDirectoryTree(TreeNode<typ>* root, bool isLeft, const string& prefix) {
     if (root != nullptr) {
         cout << prefix;
-        cout << (isLeft ? "├── " : "└── ");
-        cout << root->data << endl;
+        cout << (isLeft ? "+-- " : "+-- ");
+        cout << root->data << " [Count: "<< root->countLeaf << " ]" << "[Lines: ]" << endl;
 
-        string nextPrefix = prefix + (isLeft ? "│   " : "    ");
+        string nextPrefix = prefix + (isLeft ? "|   " : "    ");
 
         printDirectoryTree(root->left, true, nextPrefix);
         printDirectoryTree(root->right, false, nextPrefix);
