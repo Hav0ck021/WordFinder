@@ -41,6 +41,7 @@ public:
     void printTreeCDE();
     void printTree();
     void printTree(TreeNode<typ>* node);
+    void printAllLines(TreeNode<typ>* auxNode);
     void printDirectoryTree(TreeNode<typ>* root, bool isLeft = true, const string& prefix = "");
     void insertLeaf(typ data);
     void destroyTree(TreeNode<typ>* node);
@@ -261,11 +262,30 @@ void TreeAVL<typ>::printTree(TreeNode<typ>* node){
 }
 
 template<typename typ>
+void TreeAVL<typ>::printAllLines(TreeNode<typ>* auxNode) {
+    for (int i = 0; i < root->files->getSize(); i++) {
+        cout << root->files->getData(i).nameFile << " | Lines: ";
+        // Iterar sobre as linhas
+        for (int j = 0; j < root->files->getData(i).lines->getSize(); j++) {
+            cout << root->files->getData(i).lines->getData(j);
+            if (j < root->files->getData(i).lines->getSize() - 1) {
+                cout << ", ";
+            }
+        }
+        if (i < root->files->getSize() - 1) {
+            cout << " | ";
+        }
+    }
+    cout << " ]" << endl;
+}
+
+template<typename typ>
 void TreeAVL<typ>::printDirectoryTree(TreeNode<typ>* root, bool isLeft, const string& prefix) {
     if (root != nullptr) {
         cout << prefix;
-        cout << (isLeft ? "+-- " : "+-- ");
-        cout << root->data << " [Count: "<< root->countLeaf << " ]" << "[Lines: ]" << endl;
+        cout << (isLeft ? "+-- " : "--> ");
+        cout << root->data << " [Count: "<< root->countLeaf << " ]" << "[Document: ";
+        printAllLines(root);
 
         string nextPrefix = prefix + (isLeft ? "|   " : "    ");
 

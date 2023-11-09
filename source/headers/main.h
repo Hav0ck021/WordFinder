@@ -25,22 +25,35 @@ int logoExhibition(){
     return 0;
 }
 
-char showOptions(){
-    char option;
-    cout << "1 - Choose a file to open\nE - Exit the WordFinder\nChoose -> ";
+int showOptions(){
+    int option;
+
+    cout << "1 - Choose a file to open\n"
+            "2 - Search a word into files\n"
+            "3 - Exit the WordFinder\n"
+            "Choose -> ";
     cin >> option;
     cin.ignore();
     cout << "\n";
+
     return option;
 }
 
-int optionsWordFinder(TreeAVL<string> &tree, const char *op){
+int optionsWordFinder(TreeAVL<string> &tree, int *op){
     switch(*op) {
-        case '1':
+        case 1:
             chooseFile(tree);
             break;
-        case 'e':
-        case 'E':
+        case 2:
+        {
+            chooseFile(tree);
+            string word;
+            cout << "Insert a word to search: ";
+            cin >> word;
+            searchWordInTree(tree, word);
+            break;
+        }
+        case 3:
             cout << "Goodbye, see you soon! :) "<< endl;
             return 1;
         default:

@@ -3,6 +3,7 @@
 
 #include "../structures/LinkedList.h"
 #include "../structures/Tree.h"
+#include "../file_components.h"
 
 #include <iostream>
 #include <filesystem>
@@ -25,29 +26,51 @@ string removeSpecialCharacters(const string& input) {
     return result;
 }
 
-string toUpperWord(string& input){
+string toUpperWord(string &input) {
     int i = 0;
-    while(input[i] != '\0'){
+    while (input[i] != '\0') {
         input[i] = toupper(input[i]);
         i++;
     }
     return input;
 }
 
-string collectOnlyFileName(const filesystem::path fileName){
-    string fileStr = fileName.string();
-    int size = fileStr.size();
-
-    while(fileStr[size] != '\\'){
-        fileStr[size - (size + 1)] = fileStr[size];
-        size--;
-    }
-
-    return fileStr;
+char* collectOnlyFileName(const filesystem::path& filePath){
+    string fileStr = filePath.filename().string();  // Use filename() para obter apenas o nome do arquivo.
+    char* charArray = new char[fileStr.length() + 1];
+    strcpy(charArray, fileStr.c_str());
+    return charArray;
 }
 
-void printTreeFile(TreeAVL<string> &tree, const filesystem::path fileName){
-    string line, fileStr = collectOnlyFileName(fileName);
+TreeNode<string>* searchNodeInTree(TreeNode<string> *root, const string &word) {
+    if (root == nullptr) {
+        return nullptr;
+    }
+
+    if (word == root->data) {
+        return root;
+    } else if (word < root->data) {
+        return searchNodeInTree(root->left, word);
+    } else {
+        return searchNodeInTree(root->right, word);
+    }
+}
+
+bool searchWordInTree(TreeAVL<string> &tree, string &word) {
+    string wordUp = toUpperWord(word);
+    TreeNode<string> *foundNode = searchNodeInTree(tree.getNode(word), word);
+
+    if (foundNode != nullptr) {
+        cout << "Word '" << word << "' found. Count: " << foundNode->countLeaf << endl;
+        return true;
+    } else {
+        cout << "Word '" << word << "' not found in the tree." << endl;
+        return false;
+    }
+}
+
+void insertFileinTree(TreeAVL<string> &tree, const filesystem::path& fileName){
+    string line;
     int lineNum = 1;
 
     ifstream file(fileName);
@@ -75,7 +98,7 @@ void printTreeFile(TreeAVL<string> &tree, const filesystem::path fileName){
                     int i = 0;
 
                     while(i < auxNode->files->getSize()){
-                        if(auxNode->files->getData(i).nameFile == fileStr){
+                        if(auxNode->files->getData(i).nameFile == fileName){
                             fileExist = true;
                             auxNode->files->getData(i).lines->insertNode(lineNumbers);
                             auxNode->countLeaf++;
@@ -86,7 +109,7 @@ void printTreeFile(TreeAVL<string> &tree, const filesystem::path fileName){
 
                     if(!fileExist){
                         files informations;
-                        informations.nameFile = fileStr;
+                        informations.nameFile = fileName;
                         informations.lines = new LinkedList<int>();
                         informations.lines->insertNode(lineNum);
                         auxNode->files->insertNode(informations);
@@ -101,7 +124,7 @@ void printTreeFile(TreeAVL<string> &tree, const filesystem::path fileName){
     }
 }
 
-void printFile(TreeAVL<string> &tree, const filesystem::path fileName){
+void printFile(TreeAVL<string> &tree, const filesystem::path& fileName){
     string line;
     int lineNum = 1;
 
@@ -123,16 +146,25 @@ void printFile(TreeAVL<string> &tree, const filesystem::path fileName){
     cout << "\n";
 }
 
-void openFile(TreeAVL<string> &tree, const filesystem::path fileName){
+void openFile(TreeAVL<string> &tree, const filesystem::path& fileName){
     int option;
-    cout << "How do you want to open the file:\n1 - in a tree format showing the words\n2 - in a textual line format?\nChoose -> ";
+    cout << "How do you want to open the file:\n"
+            "1 - Only upload the file in tree struct\n"
+            "2 - in a tree format showing the words\n"
+            "3 - in a textual line format?\n"
+            "Choose -> ";
+
     cin >> option;
     cout << "\n";
     switch (option) {
         case 1:
-            printTreeFile(tree, fileName);
+            insertFileinTree(tree, fileName);
             break;
         case 2:
+            insertFileinTree(tree, fileName);
+            tree.printTree();
+            break;
+        case 3:
             printFile(tree, fileName);
             break;
         default:
@@ -141,7 +173,7 @@ void openFile(TreeAVL<string> &tree, const filesystem::path fileName){
     }
 }
 
-int countFiles(const filesystem::path directoryPath){
+int countFiles(const filesystem::path& directoryPath){
     int count = 0;
     for (const auto& entry : fs::directory_iterator(directoryPath)) {
         if (entry.is_regular_file() && entry.path().extension() == ".txt") {
@@ -151,7 +183,7 @@ int countFiles(const filesystem::path directoryPath){
     return count;
 }
 
-char** collectNameFiles(TreeAVL<string> &tree, const filesystem::path directoryPath){
+char** collectNameFiles(const filesystem::path& directoryPath){
     int fileCount = countFiles(directoryPath);
     char **fileNames = new char*[fileCount];
 
@@ -170,11 +202,11 @@ void chooseFile(TreeAVL<string> &tree){
     const filesystem::path filePath = fs::path {"resources/texts/"};
     int option = 0, countFile = countFiles(filePath);
 
-    char **fileNames = collectNameFiles(tree, filePath);
+    char **fileNames = collectNameFiles(filePath);
 
     cout << "Files: " << endl;
     for(int i = 0; i < countFile; i++){
-        cout << i + 1 << " - " << fileNames[i] << endl;
+        cout << i + 1 << " - " << collectOnlyFileName(fileNames[i]) << endl;
     }
 
     cout << "Choose one: " << endl;
